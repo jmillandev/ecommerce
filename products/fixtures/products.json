@@ -3,7 +3,6 @@
 
 // Para cargar la data desde este archivo
 //  python manage.py loaddata products.json
-
 [
 {
     "model": "products.product",

@@ -31,6 +31,7 @@ urlpatterns = [
     path('usuarios/logout', views.logout_view, name='logout'),
     path('usuarios/registro', views.register, name='register'),
     path('productos/', include('products.urls')),
+    path('carrito/', include('carts.urls')),
     path('admin/', admin.site.urls),
 ]
 

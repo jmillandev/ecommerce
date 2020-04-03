@@ -26,6 +26,9 @@ class Cart(models.Model):
     def update_totals(self):
         self.update_subtotals()
         self.update_total()
+
+        if self.order:
+            self.order.update_total()
     
     def update_subtotals(self):
         self.subtotal = sum(
@@ -39,6 +42,10 @@ class Cart(models.Model):
 
     def products_realted(self):
         return self.cartproducts_set.select_related('product')
+    
+    @property
+    def order(self):
+        return self.order_set.first()
 
 def set_card_id(sender, instance, *args, **kwargs):
     if not instance.cart_id:
@@ -70,7 +77,7 @@ def updater_totals(sender, instance, action, *args, **kwargs):
         instance.update_totals()
 
 def post_save_update_totals(sender, instance, *args, **kwargs):
-    instance.cart.update_subtotals()
+    instance.cart.update_totals()
 
 pre_save.connect(set_card_id, sender=Cart)
 post_save.connect(post_save_update_totals, sender=CartProducts)

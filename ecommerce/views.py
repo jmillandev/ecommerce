@@ -7,6 +7,8 @@ from django.contrib.auth import logout
 from django.contrib.auth import authenticate
 # from django.contrib.auth.models import User
 
+from django.http import HttpResponseRedirect
+
 from users.models import User
 
 from .forms import RegisterForm
@@ -31,13 +33,15 @@ def login_view(request):
         if user:
             login(request, user)
             messages.success(request, 'Bienvenido {}'.format(user.username))
+
+            if request.GET.get('next'):
+                return HttpResponseRedirect(request.GET['next'])
+
             return redirect('index')
         else:
             messages.error(request, 'Usuario o contraseña invalidos')
 
-    return render(request, 'users/login.html', {
-        #context
-    })
+    return render(request, 'users/login.html')
 
 def logout_view(request):
     user = request.user

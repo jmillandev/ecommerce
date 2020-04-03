@@ -1,0 +1,23 @@
+{% url 'shipping_address:update' as update %}
+{% url 'shipping_address:create' as create %}
+<form action="" method="post">
+    {% csrf_token %}
+
+    {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field}}
+
+            {% if filed.errors %}
+                {{ field.errors }}
+            {% endif %}
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">
+        {% if request.path == create %}      
+            Agregar
+        {% else %}
+            Actualizar
+        {% endif %}
+    </button>
+</form>

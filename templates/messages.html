@@ -1,6 +1,6 @@
 {% if messages %}
     {% for message in messages %}
-        <div class="alert alert-succces alert-dismissible fade show alert-{%if message.tags == 'success'%}success{%else%}danger{%endif%}" role="alert">
+        <div class="mt-2 alert alert-succces alert-dismissible fade show alert-{%if message.tags == 'success'%}success{%else%}danger{%endif%}" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 <span class="sr-only">Close</span>

@@ -30,6 +30,14 @@ class User(AbstractUser):
     def get_full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
+    @property
+    def shipping_address(self):
+        return self.shippingaddresses_set.filter(default=True).first()
+
+    def has_shipping_address(self):
+        return self.shipping_address is not None
+
+
 class Customer(User):
     """
     Esta clase agrega funcionabilidad al Modelo User

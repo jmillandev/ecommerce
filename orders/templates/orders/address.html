@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+    {% include 'orders/snippets/breadcrumb.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="col">
+        {% if shipping_address %}
+          <div class="h3">
+              Recoge el pedido en el punto de entrega
+          </div>
+          <div class="mt-2">
+              <a href="{% url 'orders:confirm' %}" class="btn btn-warning">Confirmar esta dirección</a>
+          </div>
+          <div class="mt-2">
+              {% include 'shipping_addresses/snippets/shipping_address.html' %}
+              {% if can_choose_address %}
+                
+                <div class="mt-2">
+                    <a href="{% url 'orders:select_address' %}">Elige otra dirección</a>
+                </div>
+              {% endif %}
+          </div>
+        {% else %}
+            <div class="h3">
+                Registra tu dirección de envío
+            </div>
+            <div>
+                <a href="{% url 'shipping_addresses:create' %}">Nueva dirección</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

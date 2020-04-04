@@ -1,2 +1,5 @@
-# ecommerce
-Este es un proyecto para practicar Django
+# Ecommerce
+
+Tienda para enlazarlo con un dashboard de mercadolibre
+
+# Instalacion

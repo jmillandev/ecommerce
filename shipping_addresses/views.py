@@ -60,6 +60,10 @@ class ShippingAddressesDeleteView(LoginRequiredMixin, DeleteView):
         if request.user.id != self.get_object().user_id:
             return redirect('carts:cart')
 
+        if self.get_object().has_orders():
+            messages.add_message(request, messages.ERROR, "La dirección no puede ser eliminada. Posee ordenes asociadas.")
+            return redirect('shipping_addresses:shipping_addresses')
+
         return super(ShippingAddressesDeleteView, self).dispatch(request, *args, **kwargs)
 
 @login_required(login_url='login')

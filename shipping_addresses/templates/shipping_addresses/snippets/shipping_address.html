@@ -1,3 +1,5 @@
+{% url 'shipping_addresses:shipping_addresses' as shipping_addresses %}
+
 <div class="card">
     <h5 class="card-header"></h5>
     <div class="card-body">
@@ -14,10 +16,14 @@
                     Dirección principal
                 </div>
             {% else %}
-                <a href="{% url 'shipping_addresses:default' shipping_address.id %}" class="btn btn-success">Default</a>
-                <a href="{% url 'shipping_addresses:delete' shipping_address.id %}" class="btn btn-danger">Eliminar</a>
+                {% if request.path == shipping_addresses %}
+                    <a href="{% url 'shipping_addresses:default' shipping_address.id %}" class="btn btn-success">Default</a>
+                    <a href="{% url 'shipping_addresses:delete' shipping_address.id %}" class="btn btn-danger">Eliminar</a>                  
+                {% endif %}
             {% endif %}
-            <a href="{% url 'shipping_addresses:update' shipping_address.id %}" class="btn btn-info">Editar</a>
+            {% if request.path == shipping_addresses %}
+                <a href="{% url 'shipping_addresses:update' shipping_address.id %}" class="btn btn-info">Editar</a>
+            {% endif %}
         </div>
     </div>
 </div>

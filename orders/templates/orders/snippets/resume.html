@@ -1,5 +1,6 @@
 {% load product_extras %}
-
+{% url 'orders:confirm' as url_confirm %}
+{% url 'orders:order' as url_order %}
 <div class="card">
     <div class="card-body">
         <div class="font-weight-bold">
@@ -35,7 +36,12 @@
             </div>
         </div>
         <div class="mt-2">
-            <a href="" class="btn btn-warning">Confirmar Pedido</a>
+            {% if request.path == url_order %}
+                <a href="{% url 'orders:address' %}" class="btn btn-warning">Confirmar dirección</a>
+            {% else %}
+                <a href="{% url 'orders:complete' %}" class="btn btn-warning">Completar Pedido</a>
+                <a href="{% url 'orders:cancel' %}" class="btn btn-danger">Cancelar Pedido</a>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -24,3 +24,6 @@ class ShippingAddresses(models.Model):
     def update_default(self, default=False):
         self.default = default
         self.save()
+
+    def has_orders(self):
+        return self.order_set.count() >= 1

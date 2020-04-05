@@ -6,6 +6,8 @@ from django.db import models
 from users.models import User
 from products.models import Product
 
+from orders.common import OrderStatus
+
 from django.db.models.signals import pre_save
 from django.db.models.signals import m2m_changed  
 from django.db.models.signals import post_save
@@ -32,7 +34,7 @@ class Cart(models.Model):
     
     def update_subtotals(self):
         self.subtotal = sum(
-            [ cp.product.price * cp.quantity for cp in self.products_realted() ]
+            [ cp.product.price * cp.quantity for cp in self.products_related() ]
         )
         self.save()
 
@@ -40,12 +42,12 @@ class Cart(models.Model):
         self.total = self.subtotal + (self.subtotal * decimal.Decimal(Cart.FEE))
         self.save()
 
-    def products_realted(self):
+    def products_related(self):
         return self.cartproducts_set.select_related('product')
-    
+
     @property
     def order(self):
-        return self.order_set.first()
+        return self.order_set.filter(status=OrderStatus.CREATED).first()
 
 def set_card_id(sender, instance, *args, **kwargs):
     if not instance.cart_id:

@@ -2,6 +2,8 @@ from django.db import models
 
 from django.contrib.auth.models import AbstractUser
 
+from orders.common import OrderStatus
+
 """
 A continuacion se lista los diferentes atributos que
 podemos utilizar dependiendo de lca clase de la cual
@@ -30,12 +32,22 @@ class User(AbstractUser):
     def get_full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
+    def orders_completed(self):
+        return self.order_set.filter(status=OrderStatus.COMPLETED).order_by('-id')
+
     @property
     def shipping_address(self):
         return self.shippingaddresses_set.filter(default=True).first()
 
+    @property
+    def addresses(self):
+        return self.shippingaddresses_set.all()
+
     def has_shipping_address(self):
         return self.shipping_address is not None
+
+    def has_shipping_addresses(self):
+        return self.shippingaddresses_set.exists()
 
 
 class Customer(User):

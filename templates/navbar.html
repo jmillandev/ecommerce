@@ -2,6 +2,7 @@
 {% url 'register' as register %}
 {% url 'carts:cart' as cart %}
 {% url 'shipping_addresses:shipping_addresses' as shipping_addresses %}
+{% url 'orders:completeds' as completeds %}
 
 <nav class="navbar navbar-expand-md bg-dark navbar-dark">
     <a href="{% url 'index' %}" class="navbar-brand">2piksigma Store</a>
@@ -22,6 +23,11 @@
                 <li class="nav-item {% if request.path == shipping_addresses %}active{% endif %}">
                     <a href="{{ shipping_addresses }}" class="nav-link">
                         Mis direcciones<i class="fas fa-location-arrow"></i>
+                    </a>
+                </li>
+                <li class="nav-item {% if request.path == completeds %}active{% endif %}">
+                    <a href="{{ completeds }}" class="nav-link">
+                        Mis pedidos<i class="fas fa-shipping-fast"></i>
                     </a>
                 </li>
             {% endif %}

@@ -1,5 +1,4 @@
 from uuid import uuid4
-from enum import Enum
 
 from django.db import models
 
@@ -11,13 +10,9 @@ from django.db.models.signals import pre_save
 
 from shipping_addresses.models import ShippingAddresses
 
-class OrderStatus(Enum):
-    CREATED = 'CREATED'
-    PAYED = 'PAYED'
-    COMPLETED = 'COMPLETED'
-    CANCELED = 'CANCELED'
+from .common import OrderStatus
+from .common import choices
 
-choices = [ (tag, tag.value) for tag in OrderStatus ]
 
 class Order(models.Model):
     order_id = models.CharField(max_length=100, null=False, blank=False, unique=True)

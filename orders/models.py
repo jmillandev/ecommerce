@@ -1,10 +1,12 @@
 from uuid import uuid4
 
+from decimal import Decimal
+
 from django.db import models
 
 from users.models import User
-
 from carts.models import Cart
+from promo_codes.models import PromoCode
 
 from django.db.models.signals import pre_save
 
@@ -26,13 +28,29 @@ class Order(models.Model):
     shipping_address = models.ForeignKey(ShippingAddresses,
                                             null=True, blank=True,
                                             on_delete=models.CASCADE)
+    promo_code = models.OneToOneField(PromoCode, null=True, blank=True,
+                                        on_delete=models.CASCADE)
 
     def __str__(self):
         return self.order_id
 
+    def apply_promo_code(self, promo_code):
+        if not self.promo_code:
+            self.promo_code = promo_code
+            self.save()
+
+            self.update_total()
+            promo_code.use()
+
     def get_total(self):
-        return self.cart.total + self.shipping_total
+        return self.cart.total + self.shipping_total - Decimal(self.get_discount())
         
+    def get_discount(self):
+        if self.promo_code:
+            return self.promo_code.discount
+        
+        return 0
+
     def update_total(self):
         self.total = self.get_total()
         self.save()

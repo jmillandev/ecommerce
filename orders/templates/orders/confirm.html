@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block breadcrumb %}
     {% include 'orders/snippets/breadcrumb.html' %}
@@ -42,9 +43,21 @@
                         <div class="font-weight-bold">
                             Código promocional
                         </div>
-                        <form action="">
-                            <input type="text" name="" class="form-control" id="" placeholder="código promoción">
+                        <form action="{% url 'promo_codes:validate' %}" id="promocode-form">
+                            <input 
+                                type="text" name="code"
+                                class="form-control"
+                                id="" placeholder="código de promoción" 
+                                {% if order.promo_code %}
+                                    disabled
+                                {% endif %}
+                            >
                         </form>
+                        <div class="mt-1 text-success" id="promocode_message" style="font-size: 14px;">
+                            {% if order.promo_code %}
+                              Codigo asociado
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -57,4 +70,8 @@
     <div class="col-4">
         {% include "orders/snippets/resume.html" %}
     </div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'js/promo_codes/promocode.js' %}"></script>
 {% endblock %}

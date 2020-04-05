@@ -23,6 +23,10 @@
                         <td>Envio:</td>
                         <td>{{ order.shipping_total | price_format }}</td>
                     </tr>
+                    <tr>
+                        <td>Descuento:</td>
+                        <td id="discount">{{ order.get_discount | price_format }}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -30,7 +34,7 @@
             <hr>
             <div class="font-weight-bold text-danger">
                  Total (Impuestos incluidos)
-                 <div class="d inline-block">
+                 <div class="d inline-block" id="total_price">
                      {{ order.total | price_format }}
                  </div>
             </div>
